@@ -6,9 +6,9 @@ class API {
 
   API() {
     _dio.options.baseUrl = 'http://192.168.38.244:8080';
+    _dio.options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     _dio.interceptors.add(PrettyDioLogger());
   }
 
   Dio get sendRequest => _dio;
-} 
-
+}

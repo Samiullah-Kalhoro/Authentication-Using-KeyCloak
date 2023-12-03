@@ -28,18 +28,20 @@ class AuthRepo {
   }
 
   Future<String> login(String username, String password) async {
-    _api.sendRequest.options.headers['Content-Type'] =
-        'application/x-www-form-urlencoded';
-    Response response = await _api.sendRequest.post(
-      '/realms/bahl/protocol/openid-connect/token',
-      data: {
-        'client_id': 'hrms',
-        'client_secret': 'NItlahoXL1C5CHbh0pXOZUXmOMdizWhF',
-        'grant_type': 'password',
-        'username': username,
-        'password': password,
-      },
-    );
-    return response.data['access_token'];
+    try {
+      Response response = await _api.sendRequest.post(
+        '/realms/bahl/protocol/openid-connect/token',
+        data: {
+          'client_id': 'hrms',
+          'client_secret': 'NItlahoXL1C5CHbh0pXOZUXmOMdizWhF',
+          'grant_type': 'password',
+          'username': username,
+          'password': password,
+        },
+      );
+      return response.data['access_token'];
+    } on DioException {
+      rethrow;
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:auth_keycloak/auth/logic/cubit/auth_cubit.dart';
+import 'package:auth_keycloak/color_schemes.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,8 +17,14 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthCubit(),
-      child: const MaterialApp(
-        home: AuthScreen(),
+      child: MaterialApp(
+        theme: ThemeData(
+          colorScheme: darkColorScheme
+        ),
+        darkTheme: ThemeData(
+          colorScheme: darkColorScheme
+        ),
+        home: const AuthScreen(),
       ),
     );
   }

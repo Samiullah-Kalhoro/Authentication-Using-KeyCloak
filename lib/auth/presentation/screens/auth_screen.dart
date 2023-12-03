@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/cubit/auth_cubit.dart';
+import '../widgets/login_form.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -16,9 +17,6 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
@@ -35,42 +33,32 @@ class _AuthScreenState extends State<AuthScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is Authenticated) {
-            return const Center(
-              child: Text('Authenticated'),
-            );
-          } else if (state is Unauthenticated) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
+            return Center(
               child: Column(
                 children: [
-                  TextField(
-                    controller: _usernameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Username',
-                    ),
-                  ),
-                  TextField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
+                  const Text('Authenticated'),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<AuthCubit>().login(
-                            _usernameController.text,
-                            _passwordController.text,
-                          );
+                      context.read<AuthCubit>().logout();
                     },
-                    child: const Text('Login'),
+                    child: const Text('Logout'),
                   ),
                 ],
               ),
             );
+          } else if (state is Unauthenticated) {
+            return LoginForm(
+              usernameController: _usernameController,
+              passwordController: _passwordController,
+            );
           } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>  LoginForm(
+              usernameController: _usernameController,
+              passwordController: _passwordController,
+            )));
+          });
             return const SizedBox.shrink();
           }
         },
