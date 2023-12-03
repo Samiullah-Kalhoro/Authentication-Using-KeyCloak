@@ -11,9 +11,6 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,17 +45,12 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             );
           } else if (state is Unauthenticated) {
-            return LoginForm(
-              usernameController: _usernameController,
-              passwordController: _passwordController,
-            );
+            return const LoginForm();
           } else {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>  LoginForm(
-              usernameController: _usernameController,
-              passwordController: _passwordController,
-            )));
-          });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => const LoginForm()));
+            });
             return const SizedBox.shrink();
           }
         },

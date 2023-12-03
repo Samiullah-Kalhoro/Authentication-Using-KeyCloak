@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/cubit/auth_cubit.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm(
-      {super.key,
-      required TextEditingController usernameController,
-      required TextEditingController passwordController});
+  const LoginForm({
+    super.key,
+  });
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -107,7 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: _login,
                     child: const Text('Login'),
                   ),
-                  if(context.read<AuthCubit>().state is AuthLoading)
+                  if (context.read<AuthCubit>().state is AuthLoading)
                     const CircularProgressIndicator()
                 ],
               ),
